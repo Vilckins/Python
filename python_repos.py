@@ -1,7 +1,7 @@
 import requests
 
 # Создание вызова API и сохранение ответа.
-url = 'http://api.github.com/search/repositories?q=language:python&sort=stars'
+url = 'http://api.github.com/search/repositories?q=language:Ruby&sort=stars'
 headers = {'Accept': 'application/vnd.github.v3+json'}
 r = requests.get(url, headers=headers)
 print(f"Status code: {r.status_code}")

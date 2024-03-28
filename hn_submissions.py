@@ -18,11 +18,19 @@ for submission_id in submission_ids[:30]:
     response_dict = r.json()
 
     # Построение словаря для каждой статьи.
-    submission_dict = {
-        'title': response_dict['title'],
-        'hh_link': f"http://news.ycombinator.com/item?id={submission_id}",
-        # 'comments': response_dict['descendants'],
-    }
+
+    try:
+        submission_dict = {
+            'title': response_dict['title'],
+            'hh_link': f"http://news.ycombinator.com/item?id={submission_id}",
+            'comments': response_dict['descendants'],
+        }
+    except KeyError:
+        submission_dict = {
+            'title': response_dict['title'],
+            'hh_link': f"http://news.ycombinator.com/item?id={submission_id}",
+            'comments': 0,
+        }
     submission_dicts.append(submission_dict)
 
 submission_dicts = sorted(submission_dicts, key=itemgetter('comments'), reverse=True)
