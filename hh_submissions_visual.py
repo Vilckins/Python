@@ -27,11 +27,8 @@ for submission_id in submission_ids[:30]:
             'comments': response_dict['descendants'],
         }
     except KeyError:
-        submission_dict = {
-            'title': response_dict['title'],
-            'hh_link': f"http://news.ycombinator.com/item?id={submission_id}",
-            'comments': 0,
-        }
+        pass
+
     submission_dicts.append(submission_dict)
 
 submission_dicts = sorted(submission_dicts, key=itemgetter('comments'), reverse=True)
@@ -62,7 +59,7 @@ my_layout = {
     'title': 'Submissions hacker-news',
     'titlefont': {'size': 28},
     'xaxis': {
-        'title': 'Repository',
+        'title': 'Submissions',
         'titlefont': {'size': 24},
         'tickfont': {'size': 14},
     },
