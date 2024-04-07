@@ -1,7 +1,8 @@
 from operator import itemgetter
 
 import requests
-from plotly import offline
+# from plotly import offline
+import plotly.graph_objects as go
 
 # Создание вызова API и сохранение ответа.
 url = 'https://hacker-news.firebaseio.com/v0/topstories.json'
@@ -33,21 +34,24 @@ for submission_id in submission_ids[:30]:
 
 submission_dicts = sorted(submission_dicts, key=itemgetter('comments'), reverse=True)
 
-repo_titles, repo_comments, repo_labels = [], [], []
+sub_titles, sub_comments, sub_labels, sub_links = [], [], [], []
 for submission_dict in submission_dicts:
-    repo_title = submission_dict ['title']
-    repo_titles.append(repo_title)
-    repo_comment = submission_dict['comments']
-    repo_comments.append(repo_comment)
-    repo_label = submission_dict['hh_link']
-    repo_labels.append(repo_label)
+    sub_title = submission_dict['title']
+    sub_titles.append(sub_title)
+    sub_comment = submission_dict['comments']
+    sub_comments.append(sub_comment)
+    sub_label = submission_dict['hh_link']
+    sub_labels.append(sub_label)
+    sub_link = f"<a href='{sub_label}'>{sub_title}</a>"
+    sub_links.append(sub_link)
 
 # Построение визуализации
 data = [{
+
     'type': 'bar',
-    'x': repo_titles,
-    'y': repo_comments,
-    'hovertext': repo_labels,
+    'x': sub_links,
+    'y': sub_comments,
+    'hovertext': sub_labels,
     'marker': {
         'color': 'rgb(60,100,150)',
         'line': {'width': 1.5, 'color': 'rgb(25, 25, 25)'}
@@ -61,17 +65,26 @@ my_layout = {
     'xaxis': {
         'title': 'Submissions',
         'titlefont': {'size': 24},
-        'tickfont': {'size': 14},
+        # 'tickfont': {'size': 14},
     },
     'yaxis': {
         'title': 'Comments',
         'titlefont': {'size': 24},
-        'tickfont': {'size': 14},
+        # 'tickfont': {'size': 14},
     },
 }
 
-fig = {'data': data, 'layout': my_layout}
-offline.plot(fig, filename='my_submissions.html')
+# fig = {'data': data, 'layout': my_layout}
+# offline.plot(fig, filename='my_submissions.html')
+
+fig = go.Figure(
+    # data=[go.Bar(x=sub_titles, y=sub_comments, hovertext=sub_labels)],
+    # layout_title_text="A Figure Displayed with fig.show()"
+    data=data,
+    layout=my_layout,
+)
+# fig = go.Figure{'data': data, 'layout': my_layout}
+fig.show(filename='my_submissions.html')
 
 # for submission_dict in submission_dicts:
 #    print(f"\nTitle: {submission_dict['title']}")
