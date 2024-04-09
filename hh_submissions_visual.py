@@ -12,7 +12,7 @@ print(f"Status code: {r.status_code}")
 # Обработка информации о каждой статье.
 submission_ids = r.json()
 submission_dicts = []
-for submission_id in submission_ids[:30]:
+for submission_id in submission_ids[:10]:
     # Создание отдельного вызова API для каждой статьи.
     url = f"https://hacker-news.firebaseio.com/v0/item/{submission_id}.json"
     r = requests.get(url)
@@ -47,11 +47,11 @@ for submission_dict in submission_dicts:
 
 # Построение визуализации
 data = [{
-
     'type': 'bar',
     'x': sub_links,
     'y': sub_comments,
-    'hovertext': sub_labels,
+    'hovertext': sub_links,
+    'text': sub_links,
     'marker': {
         'color': 'rgb(60,100,150)',
         'line': {'width': 1.5, 'color': 'rgb(25, 25, 25)'}
@@ -65,26 +65,26 @@ my_layout = {
     'xaxis': {
         'title': 'Submissions',
         'titlefont': {'size': 24},
-        # 'tickfont': {'size': 14},
+        'tickfont': {'size': 14},
     },
     'yaxis': {
         'title': 'Comments',
         'titlefont': {'size': 24},
-        # 'tickfont': {'size': 14},
+        'tickfont': {'size': 14},
     },
+    'clickmode': 'event+select',
 }
 
 # fig = {'data': data, 'layout': my_layout}
 # offline.plot(fig, filename='my_submissions.html')
 
 fig = go.Figure(
-    # data=[go.Bar(x=sub_titles, y=sub_comments, hovertext=sub_labels)],
-    # layout_title_text="A Figure Displayed with fig.show()"
     data=data,
     layout=my_layout,
 )
 # fig = go.Figure{'data': data, 'layout': my_layout}
-fig.show(filename='my_submissions.html')
+fig.write_html("hh_submission_visual.html")
+fig.show()
 
 # for submission_dict in submission_dicts:
 #    print(f"\nTitle: {submission_dict['title']}")
