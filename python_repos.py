@@ -1,9 +1,13 @@
 import requests
+def user_request(url = 'http://api.github.com/search/repositories?q=language:Ruby&sort=stars', headers = {'Accept': 'application/vnd.github.v3+json'} ):
 
 # Создание вызова API и сохранение ответа.
-url = 'http://api.github.com/search/repositories?q=language:Ruby&sort=stars'
-headers = {'Accept': 'application/vnd.github.v3+json'}
-r = requests.get(url, headers=headers)
+# url = 'http://api.github.com/search/repositories?q=language:Ruby&sort=stars'
+# headers = {'Accept': 'application/vnd.github.v3+json'}
+    r = requests.get(url, headers=headers)
+    return r
+r = user_request()
+
 print(f"Status code: {r.status_code}")
 
 # Сохранение ответа API в переменной.
@@ -22,7 +26,7 @@ for repo_dict in repo_dicts:
 # repo_dict = repo_dicts[0]
 # print(f"\nKeys: {len(repo_dict)}")
 # for key in sorted(repo_dict.keys()):
-#   print(key)
+#    print(key)
 
 # print("\nSelected information about first reposytory:")
     print(f"Name: {repo_dict['name']}")
